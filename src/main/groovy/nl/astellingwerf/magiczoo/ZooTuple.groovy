@@ -41,12 +41,7 @@ class ZooTuple {
         if (getClass() != o.class) return false
 
         ZooTuple tuple = (ZooTuple) o
-
-        if (goats != tuple.goats) return false
-        if (lions != tuple.lions) return false
-        if (wolves != tuple.wolves) return false
-
-        return true
+        return goats == tuple.goats && lions == tuple.lions && wolves == tuple.wolves
     }
 
     int hashCode() {
