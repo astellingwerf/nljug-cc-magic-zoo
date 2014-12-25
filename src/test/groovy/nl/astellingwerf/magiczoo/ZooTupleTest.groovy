@@ -4,19 +4,19 @@ import spock.lang.Specification
 import spock.lang.Unroll
 
 class ZooTupleTest extends Specification {
-    def 'assert given example'() {
         setup:
         ZooTuple t = new ZooTuple(17, 55, 6)
         when:
         ZooTuple result = t.solve()
         then:
         result == new ZooTuple(lions: 23);
+    def 'given example'() {
     }
 
     @Unroll
-    def 'assert simple cases'(int goats, int wolves, int lions, Map<String, Integer> result) {
         expect:
         new ZooTuple(result) == new ZooTuple(goats: goats, wolves: wolves, lions: lions).solve()
+    def 'simple case (#goats goats, #wolves wolves, #lions lions)'(int goats, int wolves, int lions, Map<String, Integer> result) {
 
         where:
         goats | wolves | lions || result
@@ -33,7 +33,7 @@ class ZooTupleTest extends Specification {
     }
 
     @Unroll
-    def 'assert ambiguous cases'(int goats, int wolves, int lions, Map<String, Integer> result) {
+    def 'ambiguous case (#goats goats, #wolves wolves, #lions lions)'(int goats, int wolves, int lions, Map<String, Integer> result) {
         /* In some cases, multiple answers are possible, but since the assignment tells to return a single tuple, it's
          * been implemented accordingly. The implementation has a bias:
          * The last biggest number.
