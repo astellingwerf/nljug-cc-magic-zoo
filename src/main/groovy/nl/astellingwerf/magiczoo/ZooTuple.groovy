@@ -17,21 +17,21 @@ class ZooTuple {
     }
 
     public ZooTuple solve() {
-        Closure<Integer> goats = { ZooTuple t -> t.goats }
-        Closure<Integer> wolves = { ZooTuple t -> t.wolves }
-        Closure<Integer> lions = { ZooTuple t -> t.lions }
 
         Closure<Boolean> isEven = { it -> 0 == (it(this) % 2) }
+        Closure<Integer> goats = this.&getGoats
+        Closure<Integer> wolves = this.&getWolves
+        Closure<Integer> lions = this.&getLions
 
         def xyzTriplet = [goats, wolves, lions]   // Over all kinds...
                 .split(isEven)                    // ...separate the even from the odd.
-                .collect { it.sort { it(this) } } // Within the groups of even and odd numbers, sort from small to large.
+                .collect { it.sort { it() } }     // Within the groups of even and odd numbers, sort from small to large.
                 .sort { -it.size() }              // Put the groups of even and odd numbers in order by size, large first...
                 .flatten()                        // ...and then join the kinds back into a single list.
         Closure<Integer> z = xyzTriplet.first()
         Closure<Integer> x = xyzTriplet.last()
 
-        int maxPopulation = x(this) + z(this)
+        int maxPopulation = x() + z()
         String kindWithMaxPopulation = x != goats ? (x == wolves ? 'wolves' : 'lions') : 'goats'
         new ZooTuple((kindWithMaxPopulation): maxPopulation)
     }
