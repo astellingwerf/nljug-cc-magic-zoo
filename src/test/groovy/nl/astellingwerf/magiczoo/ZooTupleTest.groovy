@@ -4,19 +4,13 @@ import spock.lang.Specification
 import spock.lang.Unroll
 
 class ZooTupleTest extends Specification {
-        setup:
-        ZooTuple t = new ZooTuple(17, 55, 6)
-        when:
-        ZooTuple result = t.solve()
-        then:
-        result == new ZooTuple(lions: 23);
     def 'given example'() {
+        expect: verify 17, 55, 6, lions: 23
     }
 
     @Unroll
-        expect:
-        new ZooTuple(result) == new ZooTuple(goats: goats, wolves: wolves, lions: lions).solve()
     def 'simple case (#goats goats, #wolves wolves, #lions lions)'(int goats, int wolves, int lions, Map<String, Integer> result) {
+        expect: verify goats, wolves, lions, result
 
         where:
         goats | wolves | lions || result
@@ -39,7 +33,7 @@ class ZooTupleTest extends Specification {
          * The last biggest number.
          */
         expect:
-        new ZooTuple(result) == new ZooTuple(goats: goats, wolves: wolves, lions: lions).solve()
+        verify goats, wolves, lions, result
 
         where:
         goats | wolves | lions || result
@@ -51,5 +45,13 @@ class ZooTupleTest extends Specification {
         12    | 8      | 12    || [lions: 20]
         2     | 2      | 0     || [wolves: 2]
         12    | 12     | 8     || [wolves: 20]
+    }
+
+    private boolean verify(int goats, int wolves, int lions, Map<String, Integer> result) {
+        new ZooTuple(result) == new ZooTuple(goats: goats, wolves: wolves, lions: lions).solve()
+    }
+
+    private boolean verify(Map<String, Integer> result, int goats, int wolves, int lions) {
+        verify goats, wolves, lions, result
     }
 }
